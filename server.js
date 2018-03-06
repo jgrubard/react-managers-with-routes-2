@@ -7,7 +7,15 @@ const Employee = require('./db/Employee');
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/employees', (req, res, next) => {
-  Employee.findAll()
+  Employee.findAll({
+    include: [{
+      model: Employee,
+      as: 'manager'
+    }, {
+      model: Employee,
+      as: 'manages'
+    }]
+  })
     .then((employees) => res.json(employees))
     .catch(next);
 })

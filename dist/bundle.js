@@ -25122,11 +25122,16 @@ var Employees = function Employees(props) {
     'ul',
     null,
     employees.map(function (employee) {
+      var manager = employee.manager ? ' is managed by ' + employee.manager.name : '';
       return _react2.default.createElement(
         'li',
         { key: employee.id },
-        employee.name,
-        employee.manager
+        _react2.default.createElement(
+          'strong',
+          null,
+          employee.name
+        ),
+        manager
       );
     })
   );

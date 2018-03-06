@@ -5,12 +5,18 @@ const Employees = (props) => {
   return (
     <ul>
       {
-        employees.map(employee => (
-          <li key={employee.id}>
-            {employee.name}
-            {employee.manager}
-          </li>
-        ))
+        employees.map(employee => {
+          let manager = employee.manager ? (
+            ` is managed by ${employee.manager.name}`
+          ) : (
+            ''
+          );
+          return (
+            <li key={employee.id}>
+              <strong>{employee.name}</strong>{manager}
+            </li>
+          )
+        })
       }
     </ul>
   )
