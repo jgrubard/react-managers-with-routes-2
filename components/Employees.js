@@ -9,7 +9,7 @@ const Employees = (props) => {
           let manager = employee.manager ? (
             ` is managed by ${employee.manager.name}`
           ) : (
-            ''
+            ' has no manager'
           );
           return (
             <li key={employee.id}>

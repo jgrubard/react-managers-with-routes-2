@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Nav = (props) => {
-  // console.log(props)
   const path = props.location.pathname;
   const employees = props.employees;
   const managers = props.managers;

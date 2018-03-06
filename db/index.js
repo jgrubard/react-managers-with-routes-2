@@ -9,12 +9,15 @@ const seed = () => {
   return Promise.all([
     Employee.create({ name: 'Mario'}),
     Employee.create({ name: 'Luigi'}),
-    Employee.create({ name: 'Bowser'})
+    Employee.create({ name: 'Peach'}),
+    Employee.create({ name: 'Bowser'}),
+    Employee.create({ name: 'Wario'}),
   ])
-  .then(([Mario, Luigi, Bowser]) => {
+  .then(([Mario, Luigi, Peach, Bowser, Wario]) => {
     return Promise.all([
-      Mario.setManager(Bowser),
-      Luigi.setManager(Bowser)
+      Wario.setManager(Bowser),
+      Mario.setManager(Peach),
+      Luigi.setManager(Peach)
     ])
 
   })

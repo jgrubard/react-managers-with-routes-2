@@ -19671,7 +19671,7 @@ var Home = function Home() {
   return _react2.default.createElement(
     'div',
     null,
-    'Home'
+    'Home Page'
   );
 };
 
@@ -19698,7 +19698,10 @@ var App = function (_Component) {
       _axios2.default.get('/api/employees').then(function (result) {
         return result.data;
       }).then(function (employees) {
-        return _this2.setState({ employees: employees });
+        var managers = employees.filter(function (manager) {
+          return manager.manages.length;
+        });
+        _this2.setState({ employees: employees, managers: managers });
       }).catch(function (err) {
         return console.error(err);
       });
@@ -19708,7 +19711,6 @@ var App = function (_Component) {
     value: function render() {
       var employees = this.state.employees;
       var managers = this.state.managers;
-      // console.log(employees, managers);
       return _react2.default.createElement(
         _reactRouterDom.HashRouter,
         null,
@@ -19728,7 +19730,7 @@ var App = function (_Component) {
           _react2.default.createElement(_reactRouterDom.Route, { path: '/employees', component: function component() {
               return _react2.default.createElement(_Employees2.default, { employees: employees });
             } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/managers', componenet: function componenet() {
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/managers', component: function component() {
               return _react2.default.createElement(_Managers2.default, { managers: managers });
             } })
         )
@@ -23473,7 +23475,6 @@ var _reactRouterDom = __webpack_require__(47);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Nav = function Nav(props) {
-  // console.log(props)
   var path = props.location.pathname;
   var employees = props.employees;
   var managers = props.managers;
@@ -25122,7 +25123,7 @@ var Employees = function Employees(props) {
     'ul',
     null,
     employees.map(function (employee) {
-      var manager = employee.manager ? ' is managed by ' + employee.manager.name : '';
+      var manager = employee.manager ? ' is managed by ' + employee.manager.name : ' has no manager';
       return _react2.default.createElement(
         'li',
         { key: employee.id },
@@ -25158,7 +25159,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Managers = function Managers(props) {
   var managers = props.managers;
-  console.log(managers);
   return _react2.default.createElement(
     'ul',
     null,
@@ -25166,7 +25166,23 @@ var Managers = function Managers(props) {
       return _react2.default.createElement(
         'li',
         { key: manager.id },
-        manager.name
+        _react2.default.createElement(
+          'strong',
+          null,
+          manager.name
+        ),
+        ' manages:',
+        _react2.default.createElement(
+          'ul',
+          null,
+          manager.manages.map(function (employee) {
+            return _react2.default.createElement(
+              'li',
+              { key: employee.id },
+              employee.name
+            );
+          })
+        )
       );
     })
   );

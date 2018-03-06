@@ -6,6 +6,8 @@ const Employee = require('./db/Employee');
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
+app.use('/vendors', express.static(path.join(__dirname, 'node_modules')));
+
 app.get('/api/employees', (req, res, next) => {
   Employee.findAll({
     include: [{

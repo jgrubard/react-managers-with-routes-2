@@ -5,7 +5,7 @@ import Nav from './Nav';
 import Employees from './Employees';
 import Managers from './Managers';
 
-const Home = () => <div>Home</div>
+const Home = () => <div>Home Page</div>
 
 class App extends Component {
   constructor() {
@@ -19,14 +19,18 @@ class App extends Component {
   componentDidMount() {
     axios.get('/api/employees')
       .then(result => result.data)
-      .then(employees => this.setState({ employees }))
+      .then(employees => {
+        let managers = employees.filter(manager => {
+          return manager.manages.length
+        })
+        this.setState({ employees, managers })
+      })
       .catch(err => console.error(err))
   }
 
   render() {
     const employees = this.state.employees;
     const managers = this.state.managers;
-    // console.log(employees, managers);
     return (
       <Router>
         <div>
@@ -34,7 +38,7 @@ class App extends Component {
           <Route component={({ location }) => <Nav location={location} employees={employees} managers={managers}/>} />
           <Route exact path='/' component={Home} />
           <Route path='/employees' component={() => <Employees employees={employees} />} />
-          <Route path='/managers' componenet={() => <Managers managers={managers} />} />
+          <Route path='/managers' component={() => <Managers managers={managers} />} />
         </div>
       </Router>
     );
